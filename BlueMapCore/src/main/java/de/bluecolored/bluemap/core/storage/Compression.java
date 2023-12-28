@@ -24,6 +24,10 @@
  */
 package de.bluecolored.bluemap.core.storage;
 
+import com.aayushatharva.brotli4j.Brotli4jLoader;
+import com.aayushatharva.brotli4j.decoder.BrotliInputStream;
+import com.aayushatharva.brotli4j.encoder.BrotliOutputStream;
+import com.aayushatharva.brotli4j.encoder.Encoder;
 import io.airlift.compress.zstd.ZstdInputStream;
 import io.airlift.compress.zstd.ZstdOutputStream;
 import net.jpountz.lz4.LZ4FrameInputStream;
@@ -44,7 +48,12 @@ public enum Compression {
     GZIP("gzip", ".gz", GZIPOutputStream::new, GZIPInputStream::new),
     DEFLATE("deflate", ".deflate", DeflaterOutputStream::new, InflaterInputStream::new),
     ZSTD("zstd", ".zst", ZstdOutputStream::new, ZstdInputStream::new),
-    LZ4("lz4", ".lz4", LZ4FrameOutputStream::new, LZ4FrameInputStream::new);
+    LZ4("lz4", ".lz4", LZ4FrameOutputStream::new, LZ4FrameInputStream::new),
+    BROTLI("br", ".br", in -> new BrotliOutputStream(in, new Encoder.Parameters().setQuality(6).setMode(Encoder.Mode.TEXT).setWindow(24)), BrotliInputStream::new);
+
+    static  {
+        Brotli4jLoader.ensureAvailability();
+    }
 
     private final String typeId;
     private final String fileSuffix;

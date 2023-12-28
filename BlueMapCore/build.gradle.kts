@@ -71,6 +71,12 @@ dependencies {
     api ("io.airlift:aircompressor:0.24")
     api ("org.lz4:lz4-java:1.8.0")
 
+    api (group = "com.aayushatharva.brotli4j", name = "brotli4j", version = "1.14.0")
+    api (group = "com.aayushatharva.brotli4j", name = "native-windows-x86_64", version = "1.14.0")
+    api (group = "com.aayushatharva.brotli4j", name = "native-linux-aarch64", version = "1.14.0")
+    api (group = "com.aayushatharva.brotli4j", name = "native-osx-x86_64", version = "1.14.0")
+    api (group = "com.aayushatharva.brotli4j", name = "native-linux-x86_64", version = "1.14.0")
+
     api ("de.bluecolored.bluemap.api:BlueMapAPI")
 
     compileOnly ("org.jetbrains:annotations:23.0.0")
