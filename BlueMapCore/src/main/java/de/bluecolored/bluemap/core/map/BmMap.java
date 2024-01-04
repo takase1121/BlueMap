@@ -40,6 +40,9 @@ import de.bluecolored.bluemap.core.storage.Storage;
 import de.bluecolored.bluemap.core.util.Grid;
 import de.bluecolored.bluemap.core.world.World;
 
+import javax.imageio.spi.IIORegistry;
+import javax.imageio.spi.ImageReaderSpi;
+import javax.imageio.spi.ServiceRegistry;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -89,6 +92,8 @@ public class BmMap {
         this.storage = Objects.requireNonNull(storage);
         this.resourcePack = Objects.requireNonNull(resourcePack);
         this.mapSettings = Objects.requireNonNull(settings);
+
+        workaroundTwelveMonkeysWebp();
 
         this.renderState = new MapRenderState();
         loadRenderState();
@@ -226,6 +231,21 @@ public class BmMap {
             out.write("{}".getBytes(StandardCharsets.UTF_8));
         } catch (Exception ex) {
             Logger.global.logError("Failed to save markers for map '" + getId() + "'!", ex);
+        }
+    }
+
+    private void workaroundTwelveMonkeysWebp() {
+        IIORegistry registry = IIORegistry.getDefaultInstance();
+        ImageReaderSpi twelveMonkeysProvider = lookupProviderByName(registry, "com.twelvemonkeys.imageio.plugins.webp.WebPImageReaderSpi");
+        if (twelveMonkeysProvider != null)
+            registry.deregisterServiceProvider(twelveMonkeysProvider);
+    }
+
+    private ImageReaderSpi lookupProviderByName(final ServiceRegistry registry, final String name) {
+        try {
+            return (ImageReaderSpi) registry.getServiceProviderByClass(Class.forName(name));
+        } catch (ClassNotFoundException e) {
+            return null;
         }
     }
 
