@@ -25,6 +25,7 @@
 package de.bluecolored.bluemap.core.map.lowres;
 
 import com.flowpowered.math.vector.Vector2i;
+import com.pngencoder.PngEncoder;
 import de.bluecolored.bluemap.core.util.math.Color;
 
 import javax.imageio.ImageIO;
@@ -93,7 +94,9 @@ public class LowresTile {
     public void save(OutputStream out) throws IOException {
         lock.writeLock().lock();
         try {
-            ImageIO.write(texture, "png", out);
+            new PngEncoder()
+                    .withBufferedImage(texture)
+                    .toStream(out);
         } finally {
             lock.writeLock().unlock();
         }
