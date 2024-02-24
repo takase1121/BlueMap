@@ -16,6 +16,21 @@ create **3D**-maps of your Minecraft worlds and display them in your browser
 <br>
 <br>
 
+## Don't Look Here!
+
+This is a fork of BlueMap that supports various experimental features, such as WebP support, better PNG for low resolution tiles, and brotli support.
+My goal is to reduce Internet bandwidth when loading the map and reducing the map size on disk.
+These changes will **never be upstreamed, and I will not maintain them**.
+
+##### Branches
+
+- `feature/webp`: uses WebP to compress lowres tiles, which reduces the map size very slightly (can cause crashes)
+- `feature/better-png`: uses a faster PNG encoder for lowres tiles (not that fast and not that efficient either)
+- `feature/brotli`: uses brotli to compress hires tiles which reduces their size by 20% (requires HTTPS; significant slowdown expected)
+- `special`: based on `feature/better-png` and `feature/brotli`
+
+In short, these are neither good for normal use. Just use upstream.
+
 ## What is BlueMap
 BlueMap is a program that reads your Minecraft world files and generates not only a map, but also 3D-models of the whole surface.
 With the web-app you then can look at those in your browser and basically view the world as if you were ingame! 
